@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <odoo>
-
+        <!--
         <record model="ir.actions.act_window" id="act_session_graph">
             <field name="name">Attendees by course</field>
             <field name="res_model">openacademy.session</field>
@@ -58,4 +58,5 @@
             action="open_board_session"
             sequence="1"
             id="menu_board_session" icon="terp-graph"/>
+        -->
 </odoo>

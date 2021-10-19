@@ -41,9 +41,10 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         #Error raised expected with message
         with self.assertRaisesRegexp(
                 CheckViolation,
-                'new row for relation "openacademy_course" violates check constraint "openacademy_course_name_description_check"'
+                'new row for relation "openacademy_course" violates check'
+                ' constraint "openacademy_course_name_description_check"'
                 ):
-            # create the course with the same name and description to raise error
+            # create the course with the same name and descrip to raise error
             self.create_course('test','test',None)
 
     @mute_logger('odoo.sql_db')
@@ -57,7 +58,8 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
 
         with self.assertRaisesRegexp(
                 UniqueViolation,
-                'duplicate key value violates unique constraint "openacademy_course_name_unique"'
+                'duplicate key value violates unique constraint '
+                '"openacademy_course_name_unique"'
                 ):
             new_id2 = self.create_course('test1','test_description',None)
             _logger.info('New ID 2: {}'.format(new_id2))

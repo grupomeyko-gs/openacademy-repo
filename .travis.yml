@@ -15,7 +15,7 @@ addons:
             - python-serial
             - python-yaml
 install:
-    - pip install psycopg2-binary
+    - pip install psycopg2
 env:
     global:
     - VERSION="13.0" TESTS="0" LINT_CHECK="0"

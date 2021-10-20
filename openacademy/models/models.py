@@ -3,14 +3,17 @@
 from datetime import timedelta
 from odoo import models, fields, api, exceptions, _
 
+
 class Course(models.Model):
     _name = 'openacademy.course'
     _description = 'Courses to the public'
 
-    name = fields.Char(string="Title",required=True)
+    name = fields.Char(string="Title", required=True)
     description = fields.Text()
-    responsible_id = fields.Many2one('res.users', ondelete='set null', string='Responsible', index=True)
-    session_ids = fields.One2many('openacademy.session', 'course_id', string='Sessions')
+    responsible_id = fields.Many2one('res.users', ondelete='set null',
+                        string='Responsible', index=True)
+    session_ids = fields.One2many('openacademy.session', 'course_id',
+                        string='Sessions')
 
     def copy(self, default=None):
         default = dict(default or {})
@@ -44,15 +47,20 @@ class Session(models.Model):
     active = fields.Boolean(default=True)
 
     instructor_id = fields.Many2one('res.partner', string='Instructor',
-            domain=['|',('instructor','=',True), ('category_id.name','ilike','Teacher')])
-    course_id = fields.Many2one('openacademy.course',ondelete='cascade',string='Course', required=True)
+                        domain=['|', ('instructor', '=', True),
+                        ('category_id.name', 'ilike', 'Teacher')])
+    course_id = fields.Many2one('openacademy.course', ondelete='cascade',
+                    string='Course', required=True)
     attendee_ids = fields.Many2many('res.partner', string='Attendees')
 
-    taken_seats = fields.Float(string="Taken Seats",compute="_taken_seats")
-    end_date = fields.Date(string="End Date", store=True,compute="_get_end_date", inverse="_set_end_date")
+    taken_seats = fields.Float(string="Taken Seats", compute="_taken_seats")
+    end_date = fields.Date(string="End Date", store=True,
+                compute="_get_end_date", inverse="_set_end_date")
 
-    hours = fields.Float(string="Duration in hours",compute="_get_hours",inverse="_set_hours")
-    attendees_count = fields.Integer(string="Attendees Count",compute="_get_attendees_count",store=True)
+    hours = fields.Float(string="Duration in hours", compute="_get_hours",
+                inverse="_set_hours")
+    attendees_count = fields.Integer(string="Attendees Count",
+                compute="_get_attendees_count", store=True)
     color = fields.Integer()
 
     @api.depends('attendee_ids')

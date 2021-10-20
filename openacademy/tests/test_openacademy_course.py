@@ -18,6 +18,7 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         super(GlobalTestOpenAcademyCourse, self).setUp()
         self.variable = 'hello world'
         self.course = self.env['openacademy.course']
+        self.course_id = self.create_course('course test', 'description course test', None)
 
     # Method of class that don't is test
     def create_course(self, course_name, course_description, course_responsible_id):
@@ -68,6 +69,6 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         '''
         Test to duplicate a course and test and check that works fine.
         '''
-        course = self.env.ref('course0')
+        course = self.course_id
         copy_course_id = course.copy()
         _logger.info('Copy Course ID: {}'.format(copy_course_id) )

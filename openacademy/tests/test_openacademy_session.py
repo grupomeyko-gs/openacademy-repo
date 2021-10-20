@@ -15,7 +15,12 @@ class GlobalTestOpenAcademySession(TransactionCase):
         super(GlobalTestOpenAcademySession, self).setUp()
         self.session = self.env['openacademy.session']
         self.partner_vauxoo = self.env.ref('base.res_partner_12')
-        self.course_vauxoo = self.env.ref('course0')
+        self.course = self.env['openacademy.course']
+        self.course_vauxoo = self.course.create({
+             'name' : 'course test',
+             'description' : 'description course test',
+             'responsible_id': None
+         })
 
     # Generic methods
 
@@ -32,6 +37,6 @@ class GlobalTestOpenAcademySession(TransactionCase):
                 'name': 'Session test 1',
                 'seats': 1,
                 'instructor_id': self.partner_vauxoo.id,
-                'attendee_ids': [(6,0,[self.partner_vauxoo.id])].items(),
+                'attendee_ids': [(6,0,[self.partner_vauxoo.id])],
                 'course_id': self.course_vauxoo.id
                 })

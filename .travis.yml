@@ -34,6 +34,7 @@ install:
     - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
     - travis_install_nightly
     - pip install psycopg2
+    - pip install psycopg2-binary
 
 script:
     - travis_run_tests

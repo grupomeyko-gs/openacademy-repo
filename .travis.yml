@@ -29,7 +29,6 @@ services:
     - postgresql
 
 before_script:
-  - psql -c 'create database template1;' -U postgres
   - cp config/database.yml.travis config/database.yml
 
 install:

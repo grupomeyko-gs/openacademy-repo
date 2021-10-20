@@ -26,6 +26,12 @@ env:
 services:
     - postgresql
 
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+
+before_script:
+  - cp config/atabase.yml.travis config/database.yml
+
 install:
     - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools ${HOME}/maintainer-quality-tools
     - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}

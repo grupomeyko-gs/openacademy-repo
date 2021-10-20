@@ -1,5 +1,5 @@
 language: python
-sudo: true
+sudo: false
 cache: pip
 
 python:
@@ -14,9 +14,6 @@ addons:
             - python-simplejson
             - python-serial
             - python-yaml
-
-install:
-    - pip install psycopg2
 
 env:
     global:
@@ -36,6 +33,7 @@ install:
     - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools ${HOME}/maintainer-quality-tools
     - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
     - travis_install_nightly
+    - pip install psycopg2
 
 script:
     - travis_run_tests

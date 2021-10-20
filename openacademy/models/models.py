@@ -11,14 +11,16 @@ class Course(models.Model):
     name = fields.Char(string="Title", required=True)
     description = fields.Text()
     responsible_id = fields.Many2one('res.users', ondelete='set null',
-                        string='Responsible', index=True)
+                                        string='Responsible', index=True)
     session_ids = fields.One2many('openacademy.session', 'course_id',
-                        string='Sessions')
+                                    string='Sessions')
 
     def copy(self, default=None):
         default = dict(default or {})
-        copied_count = self.search_count(
-                [("name","=like",_(u"Copy of {}%").format(self.name))])
+        copied_count = self.search_count([
+                                            ("name", "=like",
+                                            _(u"Copy of {}%").format(self.name))
+                                        ])
         if not copied_count:
             new_name = _(u"Copie of {}").format(self.name)
         else:
@@ -36,13 +38,14 @@ class Course(models.Model):
          _('The course title must be unique')),
     ]
 
+
 class Session(models.Model):
     _name = 'openacademy.session'
     _description = 'Sessions to the public'
 
     name = fields.Char(required=True)
     start_date = fields.Date()
-    duration = fields.Float(digits=(6,2), help="Duration in days")
+    duration = fields.Float(digits=(6, 2), help="Duration in days")
     seats = fields.Integer(string="Number of seats")
     active = fields.Boolean(default=True)
 
@@ -68,7 +71,7 @@ class Session(models.Model):
         for r in self:
             r.attendees_count = len(r.attendee_ids)
 
-    @api.depends('seats','attendee_ids')
+    @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
         for r in self:
             if not r.seats:
@@ -76,7 +79,7 @@ class Session(models.Model):
             else:
                 r.taken_seats = 100.00 * len(r.attendee_ids) / r.seats
 
-    @api.onchange('seats','attendee_ids')
+    @api.onchange('seats', 'attendee_ids')
     def _verify_valid_seats(self):
         if self.seats < 0:
             return {
@@ -93,13 +96,13 @@ class Session(models.Model):
                         },
             }
 
-    @api.constrains('instructor_id','attendee_ids')
+    @api.constrains('instructor_id', 'attendee_ids')
     def _check_instructor_not_in_attendees(self):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
                 raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
 
-    @api.constrains('start_date','duration')
+    @api.constrains('start_date', 'duration')
     def _get_end_date(self):
         for r in self:
             if not (r.start_date and r.duration):

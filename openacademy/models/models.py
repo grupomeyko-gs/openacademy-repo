@@ -11,16 +11,16 @@ class Course(models.Model):
     name = fields.Char(string="Title", required=True)
     description = fields.Text()
     responsible_id = fields.Many2one('res.users', ondelete='set null',
-                                        string='Responsible', index=True)
+                        string='Responsible', index=True)
     session_ids = fields.One2many('openacademy.session', 'course_id',
-                                    string='Sessions')
+                        string='Sessions')
 
     def copy(self, default=None):
         default = dict(default or {})
         copied_count = self.search_count([
-                                            ("name", "=like",
-                                            _(u"Copy of {}%").format(self.name))
-                                        ])
+                        ("name", "=like",
+                        _(u"Copy of {}%").format(self.name))])
+
         if not copied_count:
             new_name = _(u"Copie of {}").format(self.name)
         else:
@@ -85,7 +85,7 @@ class Session(models.Model):
             return {
                     'warning' : {
                         'title' : _('Incorrect seats value'),
-                        'message' : _('The number of available seats may not be a negative'),
+                        'message' : _('The # of seats may not be a negative'),
                     },
             }
         if self.seats < len(self.attendee_ids):
@@ -100,7 +100,8 @@ class Session(models.Model):
     def _check_instructor_not_in_attendees(self):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
-                raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
+                raise exceptions.ValidationError(
+                    _("A session's instructor can't be an attendee"))
 
     @api.constrains('start_date', 'duration')
     def _get_end_date(self):

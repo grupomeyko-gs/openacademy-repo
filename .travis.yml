@@ -1,5 +1,5 @@
 language: python
-sudo: false
+sudo: true
 cache: pip
 
 python:
@@ -16,7 +16,7 @@ addons:
             - python-yaml
 
 install:
-    - pip install -r requirements.txt
+    - pip install psycopg2
 
 env:
     global:

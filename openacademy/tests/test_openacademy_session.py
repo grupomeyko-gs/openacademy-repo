@@ -15,7 +15,7 @@ class GlobalTestOpenAcademySession(TransactionCase):
         super(GlobalTestOpenAcademySession, self).setUp()
         self.session = self.env['openacademy.session']
         self.partner_vauxoo = self.env.ref('base.res_partner_12')
-        self.course_vauxoo = self.env.ref('__export__.openacademy_course_34_8cd9681d')
+        self.course_vauxoo = self.env.ref('course0')
 
     # Generic methods
 

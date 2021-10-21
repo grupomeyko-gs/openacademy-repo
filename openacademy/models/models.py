@@ -19,7 +19,7 @@ class Course(models.Model):
         default = dict(default or {})
         copied_count = self.search_count(
             [("name", "=like",
-            _(u"Copy of {}%").format(self.name))])
+             _(u"Copy of {}%").format(self.name))])
 
         if not copied_count:
             new_name = _(u"Copie of {}").format(self.name)
@@ -49,9 +49,11 @@ class Session(models.Model):
     seats = fields.Integer(string="Number of seats")
     active = fields.Boolean(default=True)
 
-    instructor_id = fields.Many2one('res.partner', string='Instructor',
-                                    domain=['|', ('instructor', '=', True),
-                                    ('category_id.name', 'ilike', 'Teacher')])
+    instructor_id = fields.Many2one(
+        'res.partner', string='Instructor',
+        domain=['|', ('instructor', '=', True),
+        ('category_id.name', 'ilike', 'Teacher')])
+
     course_id = fields.Many2one('openacademy.course', ondelete='cascade',
                                 string='Course', required=True)
     attendee_ids = fields.Many2many('res.partner', string='Attendees')
@@ -86,16 +88,15 @@ class Session(models.Model):
     def _verify_valid_seats(self):
         if self.seats < 0:
             return {
-                    'warning' : {
-                        'title' : _('Incorrect seats value'),
-                        'message' : _('The # of seats may not be a negative'),
-                    },
-            }
+                'warning' : {
+                'title' : _('Incorrect seats value'),
+                'message' : _('The # of seats may not be a negative'), }, }
+
         if self.seats < len(self.attendee_ids):
             return {
-                        'warning' : {
-                        'title' : _('Too many attendees'),
-                        'message' : _('Increase seats or remove attendees'),},}
+                'warning' : {
+                'title' : _('Too many attendees'),
+                'message' : _('Increase seats or remove attendees'), }, }
 
     @api.constrains('instructor_id', 'attendee_ids')
     def _check_instructor_not_in_attendees(self):

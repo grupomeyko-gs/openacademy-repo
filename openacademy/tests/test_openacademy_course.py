@@ -56,7 +56,11 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         Test to create two courses with the same name.
         To raise constrain of unique name.
         '''
-        new_id = self.create_course('test1', 'test_description', None)
+        new_id = self.create_course(
+            'course test',
+            'course test description',
+            None)
+
         _logger.info('New ID: {}'.format(new_id))
 
         with self.assertRaisesRegexp(

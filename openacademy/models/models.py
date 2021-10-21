@@ -11,15 +11,15 @@ class Course(models.Model):
     name = fields.Char(string="Title", required=True)
     description = fields.Text()
     responsible_id = fields.Many2one('res.users', ondelete='set null',
-                        string='Responsible', index=True)
+                                     string='Responsible', index=True)
     session_ids = fields.One2many('openacademy.session', 'course_id',
-                        string='Sessions')
+                                  string='Sessions')
 
     def copy(self, default=None):
         default = dict(default or {})
-        copied_count = self.search_count([
-                        ("name", "=like",
-                        _(u"Copy of {}%").format(self.name))])
+        copied_count = self.search_count(
+            [("name", "=like",
+            _(u"Copy of {}%").format(self.name))])
 
         if not copied_count:
             new_name = _(u"Copie of {}").format(self.name)
@@ -50,20 +50,23 @@ class Session(models.Model):
     active = fields.Boolean(default=True)
 
     instructor_id = fields.Many2one('res.partner', string='Instructor',
-                        domain=['|', ('instructor', '=', True),
-                        ('category_id.name', 'ilike', 'Teacher')])
+                                    domain=['|', ('instructor', '=', True),
+                                    ('category_id.name', 'ilike', 'Teacher')])
     course_id = fields.Many2one('openacademy.course', ondelete='cascade',
-                    string='Course', required=True)
+                                string='Course', required=True)
     attendee_ids = fields.Many2many('res.partner', string='Attendees')
 
     taken_seats = fields.Float(string="Taken Seats", compute="_taken_seats")
     end_date = fields.Date(string="End Date", store=True,
-                compute="_get_end_date", inverse="_set_end_date")
+                           compute="_get_end_date", inverse="_set_end_date")
 
     hours = fields.Float(string="Duration in hours", compute="_get_hours",
-                inverse="_set_hours")
-    attendees_count = fields.Integer(string="Attendees Count",
-                compute="_get_attendees_count", store=True)
+                         inverse="_set_hours")
+    attendees_count = fields.Integer(
+        string="Attendees Count",
+        compute="_get_attendees_count",
+        store=True)
+
     color = fields.Integer()
 
     @api.depends('attendee_ids')
@@ -90,11 +93,9 @@ class Session(models.Model):
             }
         if self.seats < len(self.attendee_ids):
             return {
-                    'warning' : {
+                        'warning' : {
                         'title' : _('Too many attendees'),
-                        'message' : _('Increase seats or remove attendees'),
-                        },
-            }
+                        'message' : _('Increase seats or remove attendees'),},}
 
     @api.constrains('instructor_id', 'attendee_ids')
     def _check_instructor_not_in_attendees(self):

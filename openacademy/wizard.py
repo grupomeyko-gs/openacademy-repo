@@ -11,7 +11,7 @@ class Wizard(models.TransientModel):
         return self.env['openacademy.session'].browse(self._context.get('active_id'))
 
     session_ids = fields.Many2many('openacademy.session', string='Session',
-                                    required=True, default=_default_sessions)
+                                required=True, default=_default_sessions)
     attendee_ids = fields.Many2many('res.partner', string='Attendees')
 
     def subscribe(self):

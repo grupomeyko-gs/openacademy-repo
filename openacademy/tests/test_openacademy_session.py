@@ -5,6 +5,7 @@ import logging
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
 
+
 _logger = logging.getLogger(__name__)
 class GlobalTestOpenAcademySession(TransactionCase):
     '''

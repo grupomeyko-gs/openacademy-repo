@@ -8,6 +8,8 @@ from odoo.tools import mute_logger
 
 
 _logger = logging.getLogger(__name__)
+
+
 class GlobalTestOpenAcademyCourse(TransactionCase):
     '''
     Global test to openacademy course model.
@@ -42,11 +44,11 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         Test create a course with same name and description.
         To raise constraint of name diferent from description
         '''
-        #Error raised expected with message
-        with self.assertRaisesRegexp(
-            CheckViolation,
-            'new row for relation "openacademy_course" violates check'
-            ' constraint "openacademy_course_name_description_check"'):
+        # Error raised expected with message
+        with self.assertRaisesRegexp(CheckViolation, 'new row for relation '
+                                     '"openacademy_course" violates check '
+                                     'constraint "openacademy_course_name_'
+                                     'description_check"'):
             # create the course with the same name and descrip to raise error
             self.create_course('test', 'test', None)
 
@@ -63,11 +65,10 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
 
         _logger.info('New ID: {}'.format(new_id))
 
-        with self.assertRaisesRegexp(
-            UniqueViolation,
-            'duplicate key value violates unique constraint '
-            '"openacademy_course_name_unique"'):
-                new_id2 = self.create_course('test20', 'test_description', None)
+        with self.assertRaisesRegexp(UniqueViolation, 'duplicate key value '
+                                     'violates unique constraint '
+                                     '"openacademy_course_name_unique"'):
+            self.create_course('test20', 'test_description', None)
 
     def test_30_duplicate_course(self):
         '''
@@ -75,4 +76,4 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         '''
         course = self.course_id
         copy_course_id = course.copy()
-        _logger.info('Copy Course ID: {}'.format(copy_course_id) )
+        _logger.info('Copy Course ID: {}'.format(copy_course_id))

@@ -7,6 +7,8 @@ from odoo.exceptions import ValidationError
 
 
 _logger = logging.getLogger(__name__)
+
+
 class GlobalTestOpenAcademySession(TransactionCase):
     '''
     This create global test to sessions
@@ -18,10 +20,9 @@ class GlobalTestOpenAcademySession(TransactionCase):
         self.partner_vauxoo = self.env.ref('base.res_partner_12')
         self.course = self.env['openacademy.course']
         self.course_vauxoo = self.course.create({
-             'name' : 'course test',
-             'description' : 'description course test',
-             'responsible_id': None
-         })
+            'name' : 'course test',
+            'description' : 'description course test',
+            'responsible_id': None})
 
     # Generic methods
 
@@ -30,10 +31,8 @@ class GlobalTestOpenAcademySession(TransactionCase):
         '''
         Check that raise of 'A session's' instructor can't be an attendee
         '''
-        with self.assertRaisesRegexp(
-                ValidationError,
-                "A session's instructor can't be an attendee",
-            ):
+        with self.assertRaisesRegexp(ValidationError, "A session's instructor "
+                    "can't be an attendee"):
             self.session.create({
                 'name': 'Session test 1',
                 'seats': 1,

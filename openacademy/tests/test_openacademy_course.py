@@ -57,18 +57,17 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         To raise constrain of unique name.
         '''
         new_id = self.create_course(
-            'course test',
-            'course test description',
+            'test20',
+            'test_description',
             None)
 
         _logger.info('New ID: {}'.format(new_id))
 
         with self.assertRaisesRegexp(
             UniqueViolation,
-            'duplicate key value violates unique constraint'
+            'duplicate key value violates unique constraint '
             '"openacademy_course_name_unique"'):
-            new_id2 = self.create_course('test1', 'test_description', None)
-            _logger.info('New ID 2: {}'.format(new_id2))
+                new_id2 = self.create_course('test20', 'test_description', None)
 
     def test_30_duplicate_course(self):
         '''

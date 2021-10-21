@@ -37,6 +37,6 @@ class GlobalTestOpenAcademySession(TransactionCase):
                 'name': 'Session test 1',
                 'seats': 1,
                 'instructor_id': self.partner_vauxoo.id,
-                'attendee_ids': [(6,0,[self.partner_vauxoo.id])],
+                'attendee_ids': [(6, 0, [self.partner_vauxoo.id])],
                 'course_id': self.course_vauxoo.id
                 })

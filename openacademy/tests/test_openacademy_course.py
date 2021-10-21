@@ -46,7 +46,7 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
                 ' constraint "openacademy_course_name_description_check"'
                 ):
             # create the course with the same name and descrip to raise error
-            self.create_course('test','test',None)
+            self.create_course('test', 'test', None)
 
     @mute_logger('odoo.sql_db')
     def test_20_two_course_same_name(self):
@@ -54,7 +54,7 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         Test to create two courses with the same name.
         To raise constrain of unique name.
         '''
-        new_id = self.create_course('test1','test_description',None)
+        new_id = self.create_course('test1', 'test_description', None)
         _logger.info('New ID: {}'.format(new_id))
 
         with self.assertRaisesRegexp(
@@ -62,7 +62,7 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
                 'duplicate key value violates unique constraint '
                 '"openacademy_course_name_unique"'
                 ):
-            new_id2 = self.create_course('test1','test_description',None)
+            new_id2 = self.create_course('test1', 'test_description',None)
             _logger.info('New ID 2: {}'.format(new_id2))
 
     def test_30_duplicate_course(self):
